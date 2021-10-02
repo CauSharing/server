@@ -34,4 +34,7 @@ public class Post {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "postId")
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "postId")
+    private List<Sharpening> sharpeningList = new ArrayList<>();
 }

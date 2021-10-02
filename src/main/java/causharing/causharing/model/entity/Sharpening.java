@@ -5,6 +5,7 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 @AllArgsConstructor
@@ -23,4 +24,7 @@ public class Sharpening {
     private String modifiedDescription;
 
     private int line;
+
+    @ManyToOne
+    private Post postId;
 }
