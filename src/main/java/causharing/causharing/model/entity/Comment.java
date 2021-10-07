@@ -14,6 +14,7 @@ import java.util.ArrayList;
 @Setter
 @Builder
 @Accessors(chain = true)
+@ToString(exclude = {"postId", "parentCommentId", "parentCommentId"})
 public class Comment {
 
     @Id

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 @Setter
 @Builder
 @Accessors(chain = true)
+@ToString(exclude = {"noticeId", "matchingRoomId"})
 public class Notice {
 
     @Id

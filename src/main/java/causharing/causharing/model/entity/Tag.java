@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 @Setter
 @Builder
 @Accessors(chain = true)
+@ToString(exclude = {"matchingRoomId"})
 public class Tag {
 
     @Id

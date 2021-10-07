@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @Accessors(chain = true)
+@ToString(exclude = {"noticeId"})
 public class NoticePost {
 
     @Id

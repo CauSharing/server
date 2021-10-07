@@ -18,6 +18,7 @@ import java.util.*;
 @Setter
 @Builder
 @Accessors(chain = true)
+@ToString(exclude = {"user", "userEmail"})
 public class User {
 
     @Id

@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 @Accessors(chain = true)
+@ToString(exclude = {"matchingRoomId", "userEmail"})
 public class Chat {
 
     @Id
