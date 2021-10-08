@@ -1,4 +1,4 @@
-package causharing.causharing.security;
+package causharing.causharing.security.config;
 
 import causharing.causharing.security.entity.JwtUtil;
 import causharing.causharing.security.filter.JwtFilter;
@@ -54,7 +54,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**",
                 "/configuration/ui",
                 "/configuration/security",
-                "/swagger-ui.html"
+                "/swagger-ui.html",
+                "/login"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()
