@@ -8,7 +8,7 @@ public class ApiController {
 
     @GetMapping("hello")
     public String hello () {
-        return "hello ;
+        return "hello:";
     }
 
 }
