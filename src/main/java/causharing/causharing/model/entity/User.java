@@ -2,6 +2,8 @@ package causharing.causharing.model.entity;
 
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,7 +21,7 @@ import java.util.*;
 @Builder
 @Accessors(chain = true)
 @ToString(exclude = {"user", "userEmail"})
-public class User {
+public class User implements UserDetails {
 
     @Id
     private String email;
@@ -48,4 +50,34 @@ public class User {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEmail")
     List<Post> postList = new ArrayList<>();
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
 }
