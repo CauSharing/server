@@ -1,5 +1,6 @@
 package causharing.causharing.controller;
 
+import causharing.causharing.model.Header;
 import causharing.causharing.model.request.LoginRequest;
 import causharing.causharing.security.entity.JwtUtil;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +25,7 @@ public class LoginController {
     @ApiOperation(value = "로그인 페이지", notes = "JWT 토큰을 전달")
     @PostMapping("/login")
     @CrossOrigin(origins="*", maxAge=3600)
-    public String generateToken(
+    public Header<String> generateToken(
             @ApiParam(value = "!!이메일 주소, 비밀번호 필수!!", required = true, example = "email:test@naver.com, password:****")
             @RequestBody LoginRequest loginRequest
     ) {
@@ -32,9 +33,9 @@ public class LoginController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
-            return jwtUtil.generateToken(loginRequest.getEmail());
+            return Header.OK(jwtUtil.generateToken(loginRequest.getEmail()), "로그인 되었습니다.");
         } catch (Exception e) {
-            return "잘못된 아이디 혹은 비밀번호 입니다.";
+            return Header.ERROR("잘못된 아이디 혹은 비밀번호 입니다.");
         }
     }
 

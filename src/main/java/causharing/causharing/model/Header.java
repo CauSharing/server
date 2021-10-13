@@ -26,9 +26,18 @@ public class Header<T> {
                 .build();
     }
 
+    // OK description
+    public static <T> Header<T> OK(String description) {
+        return (Header<T>) Header.builder()
+                .description(description)
+                .result(true)
+                .build();
+    }
+
     // DATA OK
-    public static <T> Header<T> OK(T data) {
+    public static <T> Header<T> OK(T data, String description) {
         return (Header<T>)Header.builder()
+                .description(description)
                 .result(true)
                 .value(data)
                 .build();

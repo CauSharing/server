@@ -53,7 +53,7 @@ public class RegisterApiController {
         httpSession.setAttribute(body.getEmail(),body);
 
 
-        return Header.OK();
+        return Header.OK("인증 코드가 발송 되었습니다.");
 
     }
 
@@ -85,7 +85,7 @@ public class RegisterApiController {
             // 기존과 동일한 session name으로 들어오면 덮어씌어진다.
             httpSession.setAttribute(originBody.getEmail(),originBody);
 
-            return Header.OK();
+            return Header.OK("이메일 인증 되었습니다.");
 
         } else{ // 다르면
 
@@ -121,11 +121,11 @@ public class RegisterApiController {
             httpSession.removeAttribute(origiBody.getEmail());
 
 
-            return Header.OK();
+            return Header.OK("회원가입이 성공적으로 완료되었습니다.");
 
         } else{
 
-            return Header.ERROR("인증 안된 사용자");
+            return Header.ERROR("인증이 안된 사용자입니다.");
         }
     }
 

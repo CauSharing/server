@@ -16,14 +16,10 @@ import java.util.Random;
 @Service
 public class EmailService {
 
-
     @Autowired
     private JavaMailSender mailSender;
 
-
-
     /**
-
      * 인증코드를 리턴
      */
     public String sendVerificationEmail(String email)
