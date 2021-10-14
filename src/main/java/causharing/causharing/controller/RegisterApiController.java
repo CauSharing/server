@@ -28,6 +28,7 @@ public class RegisterApiController {
 
     @ApiOperation(value = "이메일 코드 전송",notes = "이메일 코드 전송")
     @GetMapping("/email")
+    @CrossOrigin(origins="*", maxAge=3600)
     public Header email(@ApiParam(value = "이메일주소", required = true, example = "test") @RequestParam String email,
                         //@RequestBody Header<AccountApiRequest> request,
                         @ApiIgnore() HttpSession httpSession)
@@ -59,6 +60,7 @@ public class RegisterApiController {
 
     @ApiOperation(value = "이메일 코드 인증",notes = "이메일 코드 인증")
     @GetMapping("/verify")
+    @CrossOrigin(origins="*", maxAge=3600)
     public Header verify(@ApiParam(value = "이메일주소" ,required = true, example = "test") @RequestParam String email,
                          @ApiParam(value = "이메일 인증코드",required = true) @RequestParam String code,
                          @ApiIgnore() HttpSession httpSession){
@@ -82,7 +84,7 @@ public class RegisterApiController {
         if(newBody.getVerificationCode().contains(originBody.getVerificationCode())){
             // TODO : 세선 유지 후 인증 된 사용자임을 저장
             originBody.setCheckEmaile(true);
-            // 기존과 동일한 session name으로 들어오면 덮어씌어진다.
+            // 기존과 동일한 session name으로 들어오modif면 덮어씌어진다.
             httpSession.setAttribute(originBody.getEmail(),originBody);
 
             return Header.OK("이메일 인증 되었습니다.");
@@ -97,6 +99,7 @@ public class RegisterApiController {
 
     @ApiOperation(value = "인증 후 회원가입",notes = "필수 정보:email ,password,confirmPw,nickname,department,major,language")
     @PostMapping("/register")
+    @CrossOrigin(origins="*", maxAge=3600)
     public Header create(@RequestBody RegisterApiRequest request,
                          @ApiIgnore() HttpSession httpSession) {
 
