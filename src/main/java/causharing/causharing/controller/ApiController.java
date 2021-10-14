@@ -10,6 +10,7 @@ public class ApiController {
     @GetMapping("hello")
     @CrossOrigin(origins="*", maxAge=3600)
     public String hello () {
+
         return "hello: ";
     }
 

@@ -24,7 +24,7 @@ public class Matching {
     private User user;
 
     @ManyToOne
-    private Matching matchingRoomId;
+    private MatchingRoom matchingRoomId;
 
 
 }
