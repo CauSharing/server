@@ -73,10 +73,10 @@ public class RegisterApiController {
         UserApiRequest originBody = (UserApiRequest) httpSession.getAttribute(newBody.getEmail());
 
 
-        if(originBody == null){ //쿠키가 없는경우
-            return Header.ERROR("이메일 인증을 해주세요");
-
-        }
+//        if(originBody == null){ //쿠키가 없는경우
+//            return Header.ERROR("이메일 인증을 해주세요");
+//
+//        }
 
         //파라미터로 받은 newAccount와 기존에있던 originAcountDto code가 같으면
         if(newBody.getVerificationCode().contains(originBody.getVerificationCode())){
