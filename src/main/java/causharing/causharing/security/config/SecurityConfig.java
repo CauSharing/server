@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @Configuration
 @EnableWebSecurity
-@CrossOrigin(origins="*", maxAge=3600)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
