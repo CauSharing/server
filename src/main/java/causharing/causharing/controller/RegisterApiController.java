@@ -106,8 +106,8 @@ public class RegisterApiController {
         //입력받은 객체에 대한 값을 세션에서 꺼내서
         UserApiRequest origiBody = (UserApiRequest) httpSession.getAttribute(request.getEmail());
     
-//        if(origiBody==null)
-//            return Header.ERROR("이메일 인증을 진행하세요");
+        if(origiBody==null)
+            return Header.ERROR("이메일 인증을 진행하세요");
         //세션에서 꺼낸 originBody가 인증된 사용자인지 검토
         if(origiBody.isCheckEmaile()){
 
