@@ -59,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/login",
                 "/email",
                 "/verify",
-                "/register"
+                "/register",
+                "/delete/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

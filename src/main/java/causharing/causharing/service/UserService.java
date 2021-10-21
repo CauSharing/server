@@ -52,4 +52,15 @@ public class UserService {
             return false;
         return true;
     }
+
+    public boolean delete(String email) {
+        User user = userRepository.findByEmail(email);
+
+        if (user != null) {
+            userRepository.delete(user);
+            return true;
+        }
+        else
+            return false;
+    }
 }

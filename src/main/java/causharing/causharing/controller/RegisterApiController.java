@@ -132,5 +132,17 @@ public class RegisterApiController {
         }
     }
 
+    /**
+     * 프론트에서 유저 삭제하기 위한 api
+     */
+    @DeleteMapping("/delete/{email}")
+    @ApiOperation(value = "유저 삭제",notes = "필수 정보:email")
+    public Header delete(@PathVariable String email) {
+        if (userService.delete(email)==true) {
+            return Header.OK("성공적으로 유저를 삭제했습니다.");
+        }
+        else
+            return Header.ERROR("해당 이메일을 가진 유저가 존재하지 않습니다.");
+    }
 
 }
