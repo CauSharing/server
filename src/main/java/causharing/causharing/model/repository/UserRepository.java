@@ -12,5 +12,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "SELECT u FROM User u WHERE u.nickname = ?1")
     User findByNickname(String nickname);
 
+    // 유저 초대를 위한 메소드
     User findTop1ByDepartmentAndMajorAndLanguageOrderByMatchingCountAsc(String department, String major, String language);
+
 }
