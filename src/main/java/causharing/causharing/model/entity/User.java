@@ -42,6 +42,8 @@ public class User implements UserDetails {
 
     private int reported_count;
 
+    private int matchingCount;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     List<Matching> matchingList1 = new ArrayList<>();
 
