@@ -38,4 +38,6 @@ public class MatchingRoom {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingRoomId")
     private List<Tag> tagList = new ArrayList<>();
+
+
 }

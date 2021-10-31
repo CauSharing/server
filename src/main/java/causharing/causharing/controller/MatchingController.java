@@ -22,7 +22,7 @@ public class MatchingController {
     @Autowired
     private MatchingService matchingService;
 
-    @PostMapping("/invite")
+    @PostMapping("/matching")
     @ApiOperation(value = "매칭 초대하는 페이지", notes = "")
     public Header invite(@RequestBody InviteRequest inviteRequest) {
         try {
@@ -36,7 +36,7 @@ public class MatchingController {
         }
     }
 
-    @GetMapping("/inviteList")
+    @GetMapping("/matchingList")
     @ApiOperation(value = "초대 목록을 보는 페이지", notes = "")
     public Header<InvitationListResponse> inviteList() {
         try {
@@ -49,5 +49,8 @@ public class MatchingController {
             return Header.ERROR("초대 목록을 보기 위해선 로그인이 필요합니다!");
         }
     }
+
+
+
 
 }
