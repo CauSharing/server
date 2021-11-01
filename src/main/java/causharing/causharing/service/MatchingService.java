@@ -40,7 +40,7 @@ public class MatchingService {
                 inviteRequest.getLanguage());
 
         if (user==null) {
-            return "조건에 부합하는 학생이 존재하지 않습니다.";
+            return "There is no student who meets condition.";
         }
         else {
             Invitation invitation = Invitation.builder()
@@ -48,10 +48,11 @@ public class MatchingService {
                     .InvitedPerson(user.getEmail())
                     .build();
             invitationRepository.save(invitation);
-            return user.getEmail() + "에게 요청을 보냈습니다.";
+            return  "send inviting message to"+user.getNickname() ;
         }
     }
 
+    //send inviting message to
     public InvitationListResponse inviteList(String email) {
         List<Invitation> list = invitationRepository.findByInvitedPerson(email);
         List<InvitationList> invitationList = list.stream().map(invitation -> response(invitation))
@@ -89,12 +90,12 @@ public class MatchingService {
         matchingRepository.save(senderMatching);
         matchingRepository.save(receiverMatching);
 
-        return "매칭 룸을 생성하였습니다.";
+        return "Sucessfully matchingroom created.";
     }
 
     public String reject(MatchingRejectRequest matchingRejectRequest, String receiver) {
         Invitation invitation = invitationRepository.findByInvitedPersonAndInvitePerson(receiver, matchingRejectRequest.getSender());
         invitationRepository.delete(invitation);
-        return "매칭을 거절하였습니다.";
+        return "Reject matching";
     }
 }

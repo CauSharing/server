@@ -33,7 +33,7 @@ public class MatchingRoomController {
 
             return Header.OK(matchingRoomService.roomList(email), "매칭룸목록(roomid, roomimage)");
         } catch (Exception e) {
-            return Header.ERROR("로그인 후 이용가능합니다. "+e);
+            return Header.ERROR("Need to login for seeing matchingroomList "+e);
         }
     }
 }

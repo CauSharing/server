@@ -32,11 +32,11 @@ public class MatchingController {
             return Header.OK(matchingService.invite(email, inviteRequest));
         }
         catch (Exception e) {
-            return Header.ERROR("매칭을 하기 위해선 로그인이 필요합니다!");
+            return Header.ERROR("Need to login for matching");
         }
     }
 
-    @GetMapping("/matchingList")
+    @GetMapping("/invitedList")
     @ApiOperation(value = "초대 목록을 보는 페이지", notes = "")
     public Header<InvitationListResponse> inviteList() {
         try {
@@ -46,9 +46,10 @@ public class MatchingController {
             return Header.OK(matchingService.inviteList(email),"");
         }
         catch (Exception e) {
-            return Header.ERROR("초대 목록을 보기 위해선 로그인이 필요합니다!");
+            return Header.ERROR("Need to login for seeing invitedList");
         }
     }
+
 
     @PostMapping("/accept")
     @ApiOperation(value = "매칭 수락 시 방 생성", notes = "")
@@ -60,7 +61,7 @@ public class MatchingController {
             return Header.OK(matchingService.accept(matchingAcceptRequest, receiver),"");
         }
         catch (Exception e) {
-            return Header.ERROR("매칭 수락을 위해선 로그인이 필요합니다!");
+            return Header.ERROR("Need to login for accepting matching");
         }
     }
 
@@ -74,7 +75,7 @@ public class MatchingController {
             return Header.OK(matchingService.reject(matchingRejectRequest, receiver),"");
         }
         catch (Exception e) {
-            return Header.ERROR("매칭 거절을 위해선 로그인이 필요합니다!");
+            return Header.ERROR("Need to login for rejecting matching");
         }
     }
 
