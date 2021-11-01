@@ -13,6 +13,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     User findByNickname(String nickname);
 
     // 유저 초대를 위한 메소드
-    User findTop1ByDepartmentAndMajorAndLanguageOrderByMatchingCountAsc(String department, String major, String language);
+    User findTop1ByDepartmentAndMajorAndLanguageAndEmailNotOrderByMatchingCountAsc(String department, String major, String language, String userEmail);
+
 
 }

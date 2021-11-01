@@ -34,10 +34,15 @@ public class MatchingService {
     private MatchingRoomRepository matchingRoomRepository;
 
     public String invite(String email, InviteRequest inviteRequest) {
-        User user = userRepository.findTop1ByDepartmentAndMajorAndLanguageOrderByMatchingCountAsc(
+        User user = userRepository.findTop1ByDepartmentAndMajorAndLanguageAndEmailNotOrderByMatchingCountAsc(
                 inviteRequest.getCollege(),
                 inviteRequest.getMajor(),
-                inviteRequest.getLanguage());
+                inviteRequest.getLanguage(),
+                email);
+
+        // 자기 자신한테 초대되는 현상 막기 -> clear EmailNot 추가
+        // TODO: 같은사람한테 초대되는 현상 막기
+        // sender와 receiver가 같은 방을 가지고 있는 receiver에게는 초대하면 안됨
 
         if (user==null) {
             return "조건에 부합하는 학생이 존재하지 않습니다.";
