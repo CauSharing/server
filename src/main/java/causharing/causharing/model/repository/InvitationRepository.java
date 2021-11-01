@@ -11,4 +11,7 @@ public interface InvitationRepository extends JpaRepository<Invitation, Long> {
     // 초대 목록을 보기 위한 메소드
     @Query("select u from Invitation u where u.InvitedPerson = ?1")
     List<Invitation> findByInvitedPerson(String email);
+
+    @Query("select u from Invitation u where u.InvitedPerson = ?1 and u.InvitePerson = ?2")
+    Invitation findByInvitedPersonAndInvitePerson(String InvitedPerson, String InvitePerson);
 }

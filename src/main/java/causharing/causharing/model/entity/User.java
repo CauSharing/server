@@ -21,7 +21,6 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String email;
 
     private String password;

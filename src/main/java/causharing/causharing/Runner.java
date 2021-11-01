@@ -38,7 +38,7 @@ public class Runner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-/*
+
 
         try (Connection connection = dataSource.getConnection()) {
             User user = User.builder()
@@ -52,25 +52,25 @@ public class Runner implements ApplicationRunner {
                     .build();
 
             userRepository.save(user);
-            //매칭룸 만들엉용
-            MatchingRoom room= MatchingRoom.builder().matchingRoomId(1L).build();
-            matchingRoomRepository.save(room);
-
-            MatchingRoom room2= MatchingRoom.builder().matchingRoomId(2L).build();
-            matchingRoomRepository.save(room2);
-
-            //매칭 만들어욥
-            Matching m= Matching.builder().MatchingId(1L).matchingRoomId(room)
-                            .user(user).build();
-            Matching m2= Matching.builder().MatchingId(2L).matchingRoomId(room2)
-                    .user(user).build();
-
-
-            matchingRepository.save(m);
-            matchingRepository.save(m2);
+//            //매칭룸 만들엉용
+//            MatchingRoom room= MatchingRoom.builder().matchingRoomId(1L).build();
+//            matchingRoomRepository.save(room);
+//
+//            MatchingRoom room2= MatchingRoom.builder().matchingRoomId(2L).build();
+//            matchingRoomRepository.save(room2);
+//
+//            //매칭 만들어욥
+//            Matching m= Matching.builder().MatchingId(1L).matchingRoomId(room)
+//                            .user(user).build();
+//            Matching m2= Matching.builder().MatchingId(2L).matchingRoomId(room2)
+//                    .user(user).build();
+//
+//
+//            matchingRepository.save(m);
+//            matchingRepository.save(m2);
 
         }
-*/
+
 
             }
 
