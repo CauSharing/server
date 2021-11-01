@@ -71,7 +71,7 @@ public class MatchingService {
                     .InvitedPerson(user.getEmail())
                     .build();
             invitationRepository.save(invitation);
-            return  "send inviting message to "+user.getEmail();
+            return  "send inviting message to "+user.getNickname();
         }
     }
 
