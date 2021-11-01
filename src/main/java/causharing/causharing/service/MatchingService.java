@@ -47,15 +47,18 @@ public class MatchingService {
 //                invitePerson이 user.getEmail()이고 invitedPerson이 email 인 경우는 제외
         Invitation tmpInvitation = invitationRepository.alreadyMatching(email, user.getEmail());
         // tmpInvitation이 null이 아닌 경우 이미 매칭했던 상대.
+        String tmp = "";
         while (tmpInvitation!=null) {
-            user = userRepository.findTop1ByDepartmentAndMajorAndLanguageAndEmailNotAndEmailNotOrderByMatchingCountAsc(
+            // 기존 유저와 현재 찾은 유저 둘다 제외 할 필요있음. -> clear tmp변수에 user들 추가하면서 NotIn으로 거른다.
+            tmp += user.getEmail() + " ";
+            user = userRepository.findTop1ByDepartmentAndMajorAndLanguageAndEmailNotAndEmailNotInOrderByMatchingCountAsc(
                     inviteRequest.getCollege(),
                     inviteRequest.getMajor(),
                     inviteRequest.getLanguage(),
                     email,
-                    user.getEmail()
+                    tmp.split(" ")
             );
-            // TODO: 기존 유저와 현재 찾은 유저 둘다 제외 할 필요있음.
+
             if (user==null) {
                 return "There is no student who meets condition.";
             }
