@@ -8,6 +8,7 @@ import causharing.causharing.model.repository.MatchingRepository;
 import causharing.causharing.model.repository.MatchingRoomRepository;
 import causharing.causharing.model.repository.UserRepository;
 import causharing.causharing.model.response.RoomListResponse;
+import causharing.causharing.model.response.UserMailAndName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,14 +38,24 @@ public class MatchingRoomService {
         for(Matching m:matchingList)
         {
             MatchingRoom r=m.getMatchingRoomId();
+            List<Matching> sameMatchingroom=matchingRepository.findByMatchingRoomId(r);
+            List<UserMailAndName> userList=new ArrayList<>();
+            for(Matching s: sameMatchingroom)
+            {
+                userList.add(UserMailAndName.builder()
+                        .email(s.getUser().getEmail())
+                                .nickname(s.getUser().getNickname())
+                        .build());
+            }
             roomList.add(RoomListResponse.builder()
                     .matchingRoomId(r.getMatchingRoomId())
                     .matchingRoomImage(r.getMatchingRoomImage())
+                            .userList(userList)
                     .build());
         }
 
 
-        //System.out.println(matchingList.size());
+
         return roomList;
     }
 }

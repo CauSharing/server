@@ -52,22 +52,35 @@ public class Runner implements ApplicationRunner {
                     .build();
 
             userRepository.save(user);
-//            //매칭룸 만들엉용
-//            MatchingRoom room= MatchingRoom.builder().matchingRoomId(1L).build();
-//            matchingRoomRepository.save(room);
-//
-//            MatchingRoom room2= MatchingRoom.builder().matchingRoomId(2L).build();
-//            matchingRoomRepository.save(room2);
-//
-//            //매칭 만들어욥
-//            Matching m= Matching.builder().MatchingId(1L).matchingRoomId(room)
-//                            .user(user).build();
-//            Matching m2= Matching.builder().MatchingId(2L).matchingRoomId(room2)
-//                    .user(user).build();
-//
-//
-//            matchingRepository.save(m);
-//            matchingRepository.save(m2);
+
+            User user2 = User.builder()
+                    .email("test2@naver.com")
+                    .department("공과")
+                    .image("이미지")
+                    .language("한국어")
+                    .major("소프트웨어")
+                    .nickname("퉁퉁")
+                    .password(passwordEncoder.encode("string"))
+                    .build();
+
+            userRepository.save(user2);
+
+           //매칭룸 만들엉용
+            MatchingRoom room= MatchingRoom.builder().build();
+           matchingRoomRepository.save(room);
+
+
+
+//            매칭 만들어욥
+            Matching m= Matching.builder().matchingRoomId(room)
+                            .user(user).build();
+            Matching m2= Matching.builder().MatchingId(2L).matchingRoomId(room)
+                    .user(user2).build();
+
+
+
+           matchingRepository.save(m);
+           matchingRepository.save(m2);
 
         }
 
