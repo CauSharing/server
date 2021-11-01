@@ -3,9 +3,7 @@ package causharing.causharing.model.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,6 +17,7 @@ import java.time.LocalDateTime;
 public class NoticePost {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticePostId;
 
     private String title;

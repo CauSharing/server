@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class Notice {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long noticeId;
 
     private String categoryName;

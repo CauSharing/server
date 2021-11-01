@@ -3,10 +3,7 @@ package causharing.causharing.model.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 import java.util.*;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
@@ -20,6 +17,7 @@ import java.util.ArrayList;
 public class MatchingRoom {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchingRoomId;
 
     private String matchingRoomImage;

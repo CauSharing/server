@@ -3,9 +3,7 @@ package causharing.causharing.model.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
@@ -18,6 +16,7 @@ import javax.persistence.ManyToOne;
 public class Sharpening {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long SharpeningId;
 
     private String originalDescription;
