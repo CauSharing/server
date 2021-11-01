@@ -41,8 +41,26 @@ public class MatchingService {
                 email);
 
         // 자기 자신한테 초대되는 현상 막기 -> clear EmailNot 추가
-        // TODO: 같은사람한테 초대되는 현상 막기
+        // TODO: 같은사람한테 초대되는 현상 막기 -> 진행 중
         // sender와 receiver가 같은 방을 가지고 있는 receiver에게는 초대하면 안됨
+//        invitation에 invitePerson이 email이고 invitedPerson이 user.getEmail()인 경우 또는
+//                invitePerson이 user.getEmail()이고 invitedPerson이 email 인 경우는 제외
+        Invitation tmpInvitation = invitationRepository.alreadyMatching(email, user.getEmail());
+        // tmpInvitation이 null이 아닌 경우 이미 매칭했던 상대.
+        while (tmpInvitation!=null) {
+            user = userRepository.findTop1ByDepartmentAndMajorAndLanguageAndEmailNotAndEmailNotOrderByMatchingCountAsc(
+                    inviteRequest.getCollege(),
+                    inviteRequest.getMajor(),
+                    inviteRequest.getLanguage(),
+                    email,
+                    user.getEmail()
+            );
+            // TODO: 기존 유저와 현재 찾은 유저 둘다 제외 할 필요있음.
+            if (user==null) {
+                return "There is no student who meets condition.";
+            }
+            tmpInvitation = invitationRepository.alreadyMatching(email, user.getEmail());
+        }
 
         if (user==null) {
             return "There is no student who meets condition.";
@@ -53,7 +71,7 @@ public class MatchingService {
                     .InvitedPerson(user.getEmail())
                     .build();
             invitationRepository.save(invitation);
-            return  "send inviting message to"+user.getNickname() ;
+            return  "send inviting message to "+user.getEmail();
         }
     }
 
