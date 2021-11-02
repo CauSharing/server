@@ -39,6 +39,9 @@ public class MatchingService {
                 inviteRequest.getMajor(),
                 inviteRequest.getLanguage(),
                 email);
+        if (user==null) {
+            return "There is no student who meets condition.";
+        }
 
         // 자기 자신한테 초대되는 현상 막기 -> clear EmailNot 추가
         // TODO: 같은사람한테 초대되는 현상 막기 -> 진행 중
@@ -59,9 +62,6 @@ public class MatchingService {
                     tmp.split(" ")
             );
 
-            if (user==null) {
-                return "There is no student who meets condition.";
-            }
             tmpInvitation = invitationRepository.alreadyMatching(email, user.getEmail());
         }
 
