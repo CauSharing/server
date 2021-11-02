@@ -20,6 +20,8 @@ public class RoomListResponse {
 
     private String matchingRoomImage;
 
+    private List<UserMailAndName> userList;
+
 
 
 
