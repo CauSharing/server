@@ -89,8 +89,12 @@ public class MatchingService {
     }
 
     private InvitationList response(Invitation invitation) {
+        User user = userRepository.findByEmail(invitation.getInvitedPerson());
         return InvitationList.builder()
                 .invitePerson(invitation.getInvitePerson())
+                .invitePersonImage(user.getImage())
+                .invitePersonNickname(user.getNickname())
+                .invitePersonMajor(user.getMajor())
                 .build();
     }
 

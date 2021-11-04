@@ -11,4 +11,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class InvitationList {
     private String invitePerson;
+
+    private String invitePersonImage;
+
+    private String invitePersonNickname;
+
+    private String invitePersonMajor;
 }
