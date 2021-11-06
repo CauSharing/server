@@ -17,5 +17,7 @@ public interface MatchingRepository extends JpaRepository<Matching, Long> {
 
     List<Matching> findByMatchingRoomId(MatchingRoom matchingRoom);
 
+    Matching findByMatchingRoomIdAndUser(MatchingRoom matchingRoom, User user);
+
 
 }

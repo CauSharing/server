@@ -1,5 +1,6 @@
 package causharing.causharing.model.request;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,15 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InvitationList {
-    private String invitePerson;
+public class InviteToExistRequest {
 
-    private String invitePersonImage;
 
-    private String invitePersonNickname;
+    String reciever;
 
-    private String invitePersonMajor;
-
-    private Long matchingRoomId;
-
+    Long inviteRoomId;
 }

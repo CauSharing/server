@@ -8,11 +8,10 @@ import causharing.causharing.model.repository.InvitationRepository;
 import causharing.causharing.model.repository.MatchingRepository;
 import causharing.causharing.model.repository.MatchingRoomRepository;
 import causharing.causharing.model.repository.UserRepository;
-import causharing.causharing.model.request.InvitationList;
-import causharing.causharing.model.request.InviteRequest;
-import causharing.causharing.model.request.MatchingAcceptRequest;
-import causharing.causharing.model.request.MatchingRejectRequest;
+import causharing.causharing.model.request.*;
 import causharing.causharing.model.response.InvitationListResponse;
+import causharing.causharing.model.response.PossibleInvitationList;
+import causharing.causharing.model.response.UserProfileResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
@@ -34,35 +33,33 @@ public class MatchingService {
     private MatchingRoomRepository matchingRoomRepository;
 
     public String invite(String email, InviteRequest inviteRequest) {
+
+
+        User sender= userRepository.findByEmail(email);
+
+        //자신 제외, 매칭할 사람 찾기
         User user = userRepository.findTop1ByDepartmentAndMajorAndLanguageAndEmailNotOrderByMatchingCountAsc(
                 inviteRequest.getCollege(),
                 inviteRequest.getMajor(),
                 inviteRequest.getLanguage(),
-                email);
+                sender.getEmail());
         if (user==null) {
             return "There is no student who meets condition.";
         }
 
-        // 자기 자신한테 초대되는 현상 막기 -> clear EmailNot 추가
-        // TODO: 같은사람한테 초대되는 현상 막기 -> 진행 중
-        // sender와 receiver가 같은 방을 가지고 있는 receiver에게는 초대하면 안됨
-//        invitation에 invitePerson이 email이고 invitedPerson이 user.getEmail()인 경우 또는
-//                invitePerson이 user.getEmail()이고 invitedPerson이 email 인 경우는 제외
-        Invitation tmpInvitation = invitationRepository.alreadyMatching(email, user.getEmail());
-        // tmpInvitation이 null이 아닌 경우 이미 매칭했던 상대.
+        //이미 매칭된 사람 &  초대된사람 제외
         String tmp = "";
-        while (tmpInvitation!=null) {
+        while (alreadyMatching(sender, user)) {
             // 기존 유저와 현재 찾은 유저 둘다 제외 할 필요있음. -> clear tmp변수에 user들 추가하면서 NotIn으로 거른다.
             tmp += user.getEmail() + " ";
             user = userRepository.findTop1ByDepartmentAndMajorAndLanguageAndEmailNotAndEmailNotInOrderByMatchingCountAsc(
                     inviteRequest.getCollege(),
                     inviteRequest.getMajor(),
                     inviteRequest.getLanguage(),
-                    email,
+                    sender.getEmail(),
                     tmp.split(" ")
             );
 
-            tmpInvitation = invitationRepository.alreadyMatching(email, user.getEmail());
         }
 
         if (user==null) {
@@ -70,7 +67,7 @@ public class MatchingService {
         }
         else {
             Invitation invitation = Invitation.builder()
-                    .InvitePerson(email)
+                    .InvitePerson(sender.getEmail())
                     .InvitedPerson(user.getEmail())
                     .build();
             invitationRepository.save(invitation);
@@ -78,7 +75,7 @@ public class MatchingService {
         }
     }
 
-    //send inviting message to
+    //초대목록 return
     public InvitationListResponse inviteList(String email) {
         List<Invitation> list = invitationRepository.findByInvitedPerson(email);
         List<InvitationList> invitationList = list.stream().map(invitation -> response(invitation))
@@ -89,45 +86,165 @@ public class MatchingService {
     }
 
     private InvitationList response(Invitation invitation) {
-        User user = userRepository.findByEmail(invitation.getInvitedPerson());
+        User user = userRepository.findByEmail(invitation.getInvitePerson());
         return InvitationList.builder()
                 .invitePerson(invitation.getInvitePerson())
                 .invitePersonImage(user.getImage())
                 .invitePersonNickname(user.getNickname())
                 .invitePersonMajor(user.getMajor())
+                .matchingRoomId(invitation.getMatchingRoomId())
                 .build();
     }
 
+    //초대수락
     public String accept(MatchingAcceptRequest matchingAcceptRequest, String receiverEmail) {
         User sender = userRepository.findByEmail(matchingAcceptRequest.getSender());
         User receiver = userRepository.findByEmail(receiverEmail);
         // 매칭 룸 생성
         Invitation invitation = invitationRepository.findByInvitedPersonAndInvitePerson(receiverEmail, matchingAcceptRequest.getSender());
-        MatchingRoom matchingRoom = MatchingRoom.builder().build();
-        matchingRoomRepository.save(matchingRoom);
-        invitation.setMatchingRoomId(matchingRoom.getMatchingRoomId());
 
-        // receiver 수락 시 sender 매칭 생성
-        Matching senderMatching = Matching.builder()
-                .matchingRoomId(matchingRoom)
-                .user(sender)
-                .build();
+        //새로 매칭일경우
+        if(matchingAcceptRequest.getMatchingroomId()==0L) {
+            MatchingRoom matchingRoom = MatchingRoom.builder().build();
+            matchingRoomRepository.save(matchingRoom);
+            System.out.println("들어옴");
 
-        // receiver 수락 시 receiver 매칭 생성
-        Matching receiverMatching = Matching.builder()
-                .matchingRoomId(matchingRoom)
-                .user(receiver)
-                .build();
+            // receiver 수락 시 sender 매칭 생성
+            Matching senderMatching = Matching.builder()
+                    .matchingRoomId(matchingRoom)
+                    .user(sender)
+                    .build();
 
-        matchingRepository.save(senderMatching);
-        matchingRepository.save(receiverMatching);
+            // receiver 수락 시 receiver 매칭 생성
+            Matching receiverMatching = Matching.builder()
+                    .matchingRoomId(matchingRoom)
+                    .user(receiver)
+                    .build();
 
+            matchingRepository.save(senderMatching);
+            matchingRepository.save(receiverMatching);
+
+        }
+        else{//기존 그룹 매칭일 경우 reciever만 매칭
+            MatchingRoom matchingRoom= matchingRoomRepository.findByMatchingRoomId(matchingAcceptRequest.getMatchingroomId());
+            Matching receiverMatching = Matching.builder()
+                    .matchingRoomId(matchingRoom)
+                    .user(receiver)
+                    .build();
+
+            matchingRepository.save(receiverMatching);
+
+        }
+
+
+        //매칭 완료후 invitation 삭제
+        invitationRepository.delete(invitation);
         return "Sucessfully matchingroom created.";
     }
 
+
+    //초대 거절
     public String reject(MatchingRejectRequest matchingRejectRequest, String receiver) {
-        Invitation invitation = invitationRepository.findByInvitedPersonAndInvitePerson(receiver, matchingRejectRequest.getSender());
+        Invitation invitation;
+
+        //첫 매칭일 경우
+        if(matchingRejectRequest.getMatchingroomId()==0L)
+        invitation = invitationRepository.findByInvitedPersonAndInvitePerson(receiver, matchingRejectRequest.getSender());
+        else//기존 그룹 초대일 경우
+            invitation=invitationRepository.findByInvitePersonAndAndMatchingRoomId(matchingRejectRequest.getSender(), matchingRejectRequest.getMatchingroomId());
+
         invitationRepository.delete(invitation);
         return "Reject matching";
+    }
+
+    //이미 매칭한 사이인지 확인
+    //매칭/초대된 사이이면 return true, else return false
+    public Boolean alreadyMatching(User sender, User reciever ){
+
+        if(reciever==null)
+            return false;
+        else{
+            List<Matching> list=matchingRepository.findByUser(sender); //sender의 매칭리스트
+
+            //이미 매칭된 사람이면 return true
+            for(Matching m: list)
+            {
+
+                if(matchingRepository.findByMatchingRoomIdAndUser(m.getMatchingRoomId(), reciever)!=null)
+                {
+                    return true;
+                }
+            }
+
+            //이미 초대된 사람이면 return true
+            Invitation invitation=invitationRepository.alreadyMatching(sender.getEmail(),reciever.getEmail());
+            if(invitation!=null && invitation.getMatchingRoomId()==null)
+            {
+                return true;
+            }
+
+            return false;
+
+
+        }
+
+
+
+    }
+
+    public PossibleInvitationList possibleInvite(Long roomId) {
+
+        MatchingRoom matchingRoom=matchingRoomRepository.findByMatchingRoomId(roomId); //해당 그룹 찾기
+
+        //그 그룹에 속한 user찾기
+        List<Matching> matchingList= matchingRepository.findByMatchingRoomId(matchingRoom);
+        List<String> existedList=new ArrayList<>();
+
+        for(Matching m: matchingList)
+        {
+            existedList.add(m.getUser().getEmail());
+        }
+
+        //그룹에 속하지 않은 user 찾기
+        List<User> possibleUserList= userRepository.findUsersByEmailNotIn(existedList);
+
+        System.out.println(possibleUserList);
+
+        //이미 초대된 경우 제외
+        //초대 가능한 user list return
+        List<UserProfileResponse> profile= new ArrayList<>();
+        for(User u: possibleUserList)
+        {
+            if(u.getMatchingCount()<3&&(invitationRepository.findByInvitedPersonAndAndMatchingRoomId(u.getEmail(),roomId)==null)) {
+                profile.add(UserProfileResponse.builder().image(u.getImage())
+                        .language(u.getLanguage())
+                        .nickname(u.getNickname())
+                        .department(u.getDepartment())
+                        .major(u.getMajor())
+                        .email(u.getEmail()).build()
+                );
+            }
+        }
+
+        return PossibleInvitationList.builder().possibleProfileList(profile).build();
+
+
+    }
+
+
+    //기존의 그룹에 user 선택후 초대
+    public String  invitetoexist(String email, InviteToExistRequest inviteToExistRequest) {
+
+        //reciever user 찾기
+        User reciever=userRepository.findByEmail(inviteToExistRequest.getReciever());
+
+        //기존의 그룹에 초대함
+        Invitation invitation=Invitation.builder().InvitePerson(email)
+                                    .InvitedPerson(reciever.getEmail())
+                .MatchingRoomId(inviteToExistRequest.getInviteRoomId()).build();
+
+        invitationRepository.save(invitation);
+
+        return "Sucessfully send inviting message to"+ reciever.getNickname();
     }
 }

@@ -41,47 +41,47 @@ public class Runner implements ApplicationRunner {
 
 
         try (Connection connection = dataSource.getConnection()) {
+
+            /*
             User user = User.builder()
-                    .email("test@naver.com")
+                    .email("jng@naver.com")
                     .department("공과")
                     .image("이미지")
                     .language("한국어")
                     .major("소프트웨어")
-                    .nickname("퉁퉁이")
+                    .nickname("조나경")
                     .password(passwordEncoder.encode("string"))
                     .build();
 
             userRepository.save(user);
 
             User user2 = User.builder()
-                    .email("test2@naver.com")
+                    .email("jng2@naver.com")
                     .department("공과")
                     .image("이미지")
                     .language("한국어")
                     .major("소프트웨어")
-                    .nickname("퉁퉁")
+                    .nickname("정지광")
                     .password(passwordEncoder.encode("string"))
                     .build();
 
+
             userRepository.save(user2);
 
-           //매칭룸 만들엉용
-            MatchingRoom room= MatchingRoom.builder().build();
-           matchingRoomRepository.save(room);
 
+            User user3 = User.builder()
+                    .email("jng3@naver.com")
+                    .department("공과")
+                    .image("이미지")
+                    .language("한국어")
+                    .major("소프트웨어")
+                    .nickname("강민주")
+                    .password(passwordEncoder.encode("string"))
+                    .build();
 
+            userRepository.save(user3);
 
-//            매칭 만들어욥
-            Matching m= Matching.builder().matchingRoomId(room)
-                            .user(user).build();
-            Matching m2= Matching.builder().MatchingId(2L).matchingRoomId(room)
-                    .user(user2).build();
-
-
-
-           matchingRepository.save(m);
-           matchingRepository.save(m2);
-
+*/
         }
 
 

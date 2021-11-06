@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
     User findByEmail(String email);
@@ -16,4 +18,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     User findTop1ByDepartmentAndMajorAndLanguageAndEmailNotOrderByMatchingCountAsc(String department, String major, String language, String userEmail);
 
     User findTop1ByDepartmentAndMajorAndLanguageAndEmailNotAndEmailNotInOrderByMatchingCountAsc(String department, String major, String language, String userEmail1, String[] userEmail2);
+
+
+    List<User> findUsersByEmailNotIn(List<String> existedList);
 }

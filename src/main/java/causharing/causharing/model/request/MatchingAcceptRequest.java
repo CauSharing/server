@@ -11,4 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class MatchingAcceptRequest {
     private String sender;
+
+    private Long matchingroomId;
 }

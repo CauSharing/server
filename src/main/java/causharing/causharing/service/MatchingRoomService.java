@@ -35,23 +35,32 @@ public class MatchingRoomService {
         List<Matching> matchingList= matchingRepository.findByUser(user);
         List<RoomListResponse> roomList=new ArrayList<>();
 
-        for(Matching m:matchingList)
-        {
-            MatchingRoom r=m.getMatchingRoomId();
-            List<Matching> sameMatchingroom=matchingRepository.findByMatchingRoomId(r);
-            List<UserMailAndName> userList=new ArrayList<>();
-            for(Matching s: sameMatchingroom)
-            {
-                userList.add(UserMailAndName.builder()
-                        .email(s.getUser().getEmail())
+        if(!matchingList.isEmpty()) {
+
+            System.out.println("matchinglist 안 비었음");
+            for (Matching m : matchingList) {
+                MatchingRoom r = m.getMatchingRoomId();
+                List<Matching> sameMatchingroom = matchingRepository.findByMatchingRoomId(r);
+
+                List<UserMailAndName> userList = new ArrayList<>();
+                if(!sameMatchingroom.isEmpty()) {
+                    for (Matching s : sameMatchingroom) {
+                        userList.add(UserMailAndName.builder()
+                                .email(s.getUser().getEmail())
                                 .nickname(s.getUser().getNickname())
-                        .build());
-            }
-            roomList.add(RoomListResponse.builder()
-                    .matchingRoomId(r.getMatchingRoomId())
-                    .matchingRoomImage(r.getMatchingRoomImage())
+                                .build());
+                    }
+                    roomList.add(RoomListResponse.builder()
+                            .matchingRoomId(r.getMatchingRoomId())
+                            .matchingRoomImage(r.getMatchingRoomImage())
                             .userList(userList)
-                    .build());
+                            .build());
+                }
+            }
+
+        }
+        else{
+            System.out.println("matchinglist 비었음");
         }
 
 

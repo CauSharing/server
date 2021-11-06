@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MatchingRoomRepository extends JpaRepository<MatchingRoom, Long> {
+
+    MatchingRoom findByMatchingRoomId(Long roomId);
 }
