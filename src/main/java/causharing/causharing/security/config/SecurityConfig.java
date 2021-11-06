@@ -64,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/matching",
                 "/upload",
                 "/accept",
-                "/reject"
+                "/reject",
+                "/profile/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

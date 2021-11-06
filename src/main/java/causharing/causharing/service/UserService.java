@@ -4,6 +4,9 @@ package causharing.causharing.service;
 import causharing.causharing.model.entity.User;
 import causharing.causharing.model.repository.UserRepository;
 import causharing.causharing.model.request.RegisterApiRequest;
+import causharing.causharing.model.response.UserProfileRequest;
+import causharing.causharing.model.response.UserProfileResponse;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -62,5 +65,44 @@ public class UserService {
         }
         else
             return false;
+    }
+
+    /**
+     * User Profile 확인 페이지
+     */
+    public UserProfileResponse read(String email) {
+        User user = userRepository.findByEmail(email);
+
+        return UserProfileResponse.builder()
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .department(user.getDepartment())
+                .major(user.getMajor())
+                .image(user.getImage())
+                .language(user.getLanguage())
+                .build();
+    }
+
+    public UserProfileResponse update(String email,
+                                       UserProfileRequest userProfileRequest) {
+        User user = userRepository.findByEmail(email);
+
+        user.setNickname(userProfileRequest.getNickname())
+                .setDepartment(userProfileRequest.getDepartment())
+                .setMajor(userProfileRequest.getMajor())
+                .setImage(userProfileRequest.getImage())
+                .setLanguage(userProfileRequest.getLanguage());
+
+        userRepository.save(user);
+
+        return UserProfileResponse.builder()
+                .email(email)
+                .nickname(user.getNickname())
+                .department(user.getDepartment())
+                .major(user.getMajor())
+                .image(user.getImage())
+                .language(user.getLanguage())
+                .build();
+
     }
 }

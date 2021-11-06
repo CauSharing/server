@@ -23,7 +23,4 @@ public class RoomListResponse {
     private List<UserMailAndName> userList;
 
 
-
-
-
 }
