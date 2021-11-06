@@ -102,8 +102,10 @@ public class MatchingService {
         User sender = userRepository.findByEmail(matchingAcceptRequest.getSender());
         User receiver = userRepository.findByEmail(receiverEmail);
         // 매칭 룸 생성
+        Invitation invitation = invitationRepository.findByInvitedPersonAndInvitePerson(receiverEmail, matchingAcceptRequest.getSender());
         MatchingRoom matchingRoom = MatchingRoom.builder().build();
         matchingRoomRepository.save(matchingRoom);
+        invitation.setMatchingRoomId(matchingRoom.getMatchingRoomId());
 
         // receiver 수락 시 sender 매칭 생성
         Matching senderMatching = Matching.builder()
