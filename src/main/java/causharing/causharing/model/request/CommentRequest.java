@@ -5,20 +5,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class InvitationList {
-    private String invitePerson;
+public class CommentRequest {
 
-    private String invitePersonImage;
+    private String content;
 
-    private String invitePersonNickname;
+    private Long postId;
 
-    private String invitePersonMajor;
-
-    private Long matchingRoomId;
-
+    private Long parentCommentId;
 }
