@@ -123,7 +123,7 @@ public class CommentService {
 
         Comment comment=commentRepository.findByCommentId(changecCommentRequest.getCommentId());
 
-        comment.setContent(changecCommentRequest.getChangeContet());
+        comment.setContent(changecCommentRequest.getChangeContent());
         comment.setCommentDate(LocalDateTime.now());
 
         commentRepository.save(comment);
