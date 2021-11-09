@@ -25,6 +25,8 @@ public class Comment {
 
     private LocalDateTime commentDate;
 
+    private String writer;
+
     @ManyToOne
     private Post postId;
 
@@ -33,5 +35,9 @@ public class Comment {
 
     @ManyToOne
     private Comment parentCommentId;
+
+
+
+
 
 }

@@ -3,8 +3,10 @@ package causharing.causharing.service;
 
 import causharing.causharing.model.entity.Comment;
 import causharing.causharing.model.entity.Post;
+import causharing.causharing.model.entity.User;
 import causharing.causharing.model.repository.CommentRepository;
 import causharing.causharing.model.repository.PostRepository;
+import causharing.causharing.model.repository.UserRepository;
 import causharing.causharing.model.request.ChangecCommentRequest;
 import causharing.causharing.model.request.CommentRequest;
 import causharing.causharing.model.response.CommentListResponse;
@@ -24,10 +26,14 @@ public class CommentService {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    UserRepository userRepository;
 
-    public String create(CommentRequest commentRequest) {
+
+    public String create(CommentRequest commentRequest, String email) {
 
         Post post= postRepository.findByPostId(commentRequest.getPostId());
+        User user= userRepository.findByEmail(email);
 
         Comment parentComment= commentRepository.findByCommentId(commentRequest.getParentCommentId());
 
@@ -36,6 +42,7 @@ public class CommentService {
                                 .commentDate(LocalDateTime.now())
                                 .postId(post)
                                 .content(commentRequest.getContent())
+                                .writer(user.getNickname())
                                 .build();
 
         commentRepository.save(comment);
@@ -64,6 +71,7 @@ public class CommentService {
                     response.add(CommentListResponse.builder()
                             .commentId(c.getCommentId())
                             .content(c.getContent())
+                            .writer(c.getWriter())
                             .commentDate(c.getCommentDate())
                             .build());
                 } else {//대댓글
@@ -75,6 +83,7 @@ public class CommentService {
                             CommentListResponse clr = CommentListResponse.builder()
                                     .commentId(c.getCommentId())
                                     .content(c.getContent())
+                                    .writer(c.getWriter())
                                     .commentDate(c.getCommentDate())
                                     .build();
                             //부모 댓글에 삽입
@@ -109,6 +118,7 @@ public class CommentService {
 
         if(comment.getParentCommentId()==null) { //댓글이면 내용변경
             comment.setContent("삭제된 댓글입니다.");
+            comment.setWriter("");
 
             commentRepository.save(comment);
         }
@@ -116,7 +126,7 @@ public class CommentService {
             commentRepository.delete(comment);
         }
 
-        return "sucessfully delete commnet";
+        return "Sucessfully delete comment";
     }
 
     public String update(ChangecCommentRequest changecCommentRequest) {
