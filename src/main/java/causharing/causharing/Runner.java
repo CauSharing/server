@@ -42,6 +42,17 @@ public class Runner implements ApplicationRunner {
 
         try (Connection connection = dataSource.getConnection()) {
 
+//            User user = User.builder()
+//                    .email("test2@naver.com")
+//                    .department("공과")
+//                    .image("이미지")
+//                    .language("한국어")
+//                    .major("소프트웨어")
+//                    .nickname("진구")
+//                    .password(passwordEncoder.encode("string"))
+//                    .build();
+//
+//            userRepository.save(user);
             /*
             User user = User.builder()
                     .email("jng@naver.com")
