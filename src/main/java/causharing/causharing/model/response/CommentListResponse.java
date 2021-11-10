@@ -21,6 +21,8 @@ public class CommentListResponse {
 
     private LocalDateTime commentDate;
 
+    private String writer;
+
     private List<CommentListResponse> childComment;
 
 }
