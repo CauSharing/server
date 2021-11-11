@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Data
@@ -19,8 +20,7 @@ public class PostResponse {
 
     private LocalDateTime postDate;
 
-    private String postImage;
-
+    @Column(length = 100000)
     private String content;
 
     private Long matchingRoomId;

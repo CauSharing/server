@@ -24,8 +24,6 @@ public class Post {
 
     private LocalDateTime postDate;
 
-    private String postImage;
-
     private String content;
 
     @ManyToOne

@@ -29,7 +29,6 @@ public class PostService {
         Post post = Post.builder()
                 .title(createPostRequest.getTitle())
                 .postDate(createPostRequest.getPostDate())
-                .postImage(createPostRequest.getPostImage())
                 .content(createPostRequest.getContent())
                 .matchingRoomId(matchingRoomRepository.findByMatchingRoomId(createPostRequest.getMatchingRoomId()))
                 .userEmail(userRepository.findByEmail(email))
@@ -42,7 +41,6 @@ public class PostService {
                 .postId(post.getPostId())
                 .title(post.getTitle())
                 .postDate(post.getPostDate())
-                .postImage(post.getPostImage())
                 .content(post.getContent())
                 .matchingRoomId(post.getMatchingRoomId().getMatchingRoomId())
                 .userNickname(post.getUserEmail().getNickname())
@@ -59,7 +57,6 @@ public class PostService {
                 .postId(post.getPostId())
                 .title(post.getTitle())
                 .postDate(post.getPostDate())
-                .postImage(post.getPostImage())
                 .content(post.getContent())
                 .matchingRoomId(post.getMatchingRoomId().getMatchingRoomId())
                 .userNickname(post.getUserEmail().getNickname())
@@ -72,7 +69,7 @@ public class PostService {
         post.setTitle(createPostRequest.getTitle())
                 .setPostDate(createPostRequest.getPostDate())
                 .setContent(createPostRequest.getContent())
-                .setPostImage(createPostRequest.getPostImage());
+                ;
 
         postRepository.save(post);
 
@@ -80,7 +77,6 @@ public class PostService {
                 .postId(post.getPostId())
                 .title(post.getTitle())
                 .postDate(post.getPostDate())
-                .postImage(post.getPostImage())
                 .content(post.getContent())
                 .matchingRoomId(post.getMatchingRoomId().getMatchingRoomId())
                 .userNickname(post.getUserEmail().getNickname())

@@ -17,8 +17,6 @@ public class CreatePostRequest {
 
     private LocalDateTime postDate;
 
-    private String postImage;
-
     private String content;
 
     private Long matchingRoomId;
