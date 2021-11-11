@@ -53,6 +53,7 @@ public class MatchingRoomService {
                     roomList.add(RoomListResponse.builder()
                             .matchingRoomId(r.getMatchingRoomId())
                             .matchingRoomImage(r.getMatchingRoomImage())
+                            .matchingRoomName(r.getMatchingRoomName())
                             .userList(userList)
                             .build());
                 }

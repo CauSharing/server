@@ -22,6 +22,10 @@ public class MatchingRoom {
 
     private String matchingRoomImage;
 
+    private String matchingRoomName;
+
+
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "matchingRoomId")
     private List<Matching> matchingList = new ArrayList<>();
 
