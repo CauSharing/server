@@ -124,6 +124,12 @@ public class MatchingService {
             matchingRepository.save(senderMatching);
             matchingRepository.save(receiverMatching);
 
+            sender.setMatchingCount(sender.getMatchingCount()+1);
+            receiver.setMatchingCount(receiver.getMatchingCount()+1);
+
+            userRepository.save(sender);
+            userRepository.save(receiver);
+
         }
         else{//기존 그룹 매칭일 경우 reciever만 매칭
             MatchingRoom matchingRoom= matchingRoomRepository.findByMatchingRoomId(matchingAcceptRequest.getMatchingroomId());
