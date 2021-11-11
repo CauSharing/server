@@ -19,6 +19,8 @@ public class FileUploadController {
     @PostMapping("/upload")
     public String uploadImage(@RequestPart MultipartFile file) {
         return fileUploadService.uploadImage(file);
+
     }
+
 
 }

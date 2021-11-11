@@ -33,6 +33,7 @@ public class LoginController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
+            // TODO : 유저 정보 같이 보내기.
             return Header.OK(jwtUtil.generateToken(loginRequest.getEmail()), "로그인 되었습니다.");
         } catch (Exception e) {
             return Header.ERROR("잘못된 아이디 혹은 비밀번호 입니다.");

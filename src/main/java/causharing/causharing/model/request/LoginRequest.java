@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class LoginRequest {
 
-    @ApiModelProperty(example = "test@naver.com")
+    @ApiModelProperty(example = "test1@cau.ac.kr")
     private String email;
 
     private String password;
