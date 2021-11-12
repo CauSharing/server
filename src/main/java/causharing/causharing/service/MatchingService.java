@@ -107,7 +107,7 @@ public class MatchingService {
         if(matchingAcceptRequest.getMatchingroomId()==0L) {
             MatchingRoom matchingRoom = MatchingRoom.builder().build();
             matchingRoomRepository.save(matchingRoom);
-            System.out.println("들어옴");
+            //System.out.println("들어옴");
 
             // receiver 수락 시 sender 매칭 생성
             Matching senderMatching = Matching.builder()

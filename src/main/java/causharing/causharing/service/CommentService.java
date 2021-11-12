@@ -58,7 +58,7 @@ public class CommentService {
         List<Comment> list= commentRepository.findCommentsByPostIdOrderByCommentIdAsc(post);
 
 
-        System.out.println(list);
+        //System.out.println(list);
         List<CommentListResponse> response= new ArrayList<>();
 
 
@@ -117,16 +117,32 @@ public class CommentService {
 
 
         if(comment.getParentCommentId()==null) { //댓글이면 내용변경
-            comment.setContent("삭제된 댓글입니다.");
-            comment.setWriter("");
 
-            commentRepository.save(comment);
+            if(!comment.getCommentList().isEmpty()) {
+                System.out.println(comment.getCommentList());
+                comment.setContent("삭제된 댓글입니다.");
+                comment.setWriter("");
+
+
+                commentRepository.save(comment);
+            }
+            else
+            {
+                commentRepository.delete(comment);
+            }
         }
         else{//대댓글이면 완전히 삭제
+            Comment parent=comment.getParentCommentId();
             commentRepository.delete(comment);
+            //System.out.println(parent.getCommentList());
+;            if(parent.getCommentList().isEmpty()&&parent.getWriter().equals(""))
+            {
+                Comment temp=commentRepository.findByCommentId(parent.getCommentId());
+                commentRepository.delete(temp);
+            }
         }
 
-        return "Sucessfully delete comment";
+        return "Successfully delete comment";
     }
 
     public String update(ChangecCommentRequest changecCommentRequest) {

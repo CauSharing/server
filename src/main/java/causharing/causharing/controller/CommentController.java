@@ -57,7 +57,9 @@ public class CommentController {
     }
 
     @DeleteMapping("/deleteComment")
-    @ApiOperation(value="댓글 삭제",notes="댓글이 삭제되면 '삭제된 메시지입니다'라고 내용만 변경, 대댓글일경우 완전히 삭제")
+    @ApiOperation(value="댓글 삭제",notes="댓글:1) 대댓글이 있으면 '삭제된 댓글입니다' 내용변경, 2) 대댓글이 없으면 삭제/" +
+            "대댓글:1)댓글이 존재하면 대댓글만 삭제 2) 댓글이 존재x일때 2-1) 다른 대댓글이 있으면 대댓글만 삭제 2-2) 다른 대댓글이 없으면 " +
+            "댓글과 대댓글 같이 삭제")
     public Header deleteComment( Long commentId)
     {
         try {
