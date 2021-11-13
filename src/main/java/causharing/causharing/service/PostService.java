@@ -1,5 +1,6 @@
 package causharing.causharing.service;
 
+import causharing.causharing.model.entity.MatchingRoom;
 import causharing.causharing.model.entity.Post;
 import causharing.causharing.model.repository.MatchingRoomRepository;
 import causharing.causharing.model.repository.PostRepository;
@@ -8,6 +9,12 @@ import causharing.causharing.model.request.CreatePostRequest;
 import causharing.causharing.model.response.PostResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PostService {
@@ -87,5 +94,36 @@ public class PostService {
         Post post = postRepository.findByPostId(postId);
         postRepository.delete(post);
         return "Delete post successfully";
+    }
+
+    public List<PostResponse> getPostList(Long matchingroomId, LocalDate postDate) {
+
+
+        MatchingRoom matchingRoom= matchingRoomRepository.findByMatchingRoomId(matchingroomId);
+
+
+
+        List<Post> list= postRepository.findPostsByMatchingRoomIdAndPostDateBetween(matchingRoom, postDate.atStartOfDay(), postDate.plusDays(1).atStartOfDay());
+
+        List<PostResponse> response= new ArrayList<>();
+        if(!list.isEmpty()) {
+            for (Post p : list) {
+                
+
+                response.add(PostResponse.builder()
+                        .postId(p.getPostId())
+                        .postDate(p.getPostDate())
+                        .content(p.getContent())
+                        .title(p.getTitle())
+                        .matchingRoomId(p.getMatchingRoomId().getMatchingRoomId())
+                        .userNickname(p.getUserEmail().getNickname())
+                        .build());
+            }
+        }
+
+
+        return response;
+
+
     }
 }
