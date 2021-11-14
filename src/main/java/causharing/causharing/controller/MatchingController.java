@@ -27,7 +27,7 @@ public class MatchingController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = ((User) auth.getPrincipal()).getUsername();
 
-            return Header.OK(matchingService.invite(email, inviteRequest));
+            return Header.OK(matchingService.invite(email, inviteRequest), "");
         }
         catch (Exception e) {
             return Header.ERROR("Need to login for matching");
