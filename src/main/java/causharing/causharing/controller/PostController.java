@@ -5,10 +5,13 @@ import causharing.causharing.model.request.CreatePostRequest;
 import causharing.causharing.service.PostService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 public class PostController {
@@ -42,6 +45,23 @@ public class PostController {
             return Header.ERROR("Need to login for see the post");
         }
     }
+
+    @GetMapping("/postList")
+    @ApiOperation(value="게시물 목록",notes="매칭룸 아이디, 원하는 날짜= YYYY-MM-DD")
+     public Header postList(@RequestParam Long matchingroomId, @RequestParam @DateTimeFormat(pattern="yyyy-MM-dd") LocalDate postDate)
+    {
+
+        try{
+
+            return Header.OK(postService.getPostList(matchingroomId, postDate),"get postList successfully");
+
+        }catch(Exception e)
+        {
+            return Header.ERROR("get postList fail: "+e);
+        }
+
+    }
+
 
     @PutMapping("/postUpdate")
     @ApiOperation(value = "게시물 수정, /postUpdate?postId=** 와 RequestBody",notes = "")
