@@ -7,6 +7,7 @@ import causharing.causharing.model.entity.User;
 import causharing.causharing.model.repository.MatchingRepository;
 import causharing.causharing.model.repository.MatchingRoomRepository;
 import causharing.causharing.model.repository.UserRepository;
+import causharing.causharing.model.request.RoomRequest;
 import causharing.causharing.model.response.RoomListResponse;
 import causharing.causharing.model.response.UserMailAndName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,5 +68,19 @@ public class MatchingRoomService {
 
 
         return roomList;
+    }
+
+    public String update(RoomRequest roomRequest) {
+
+        MatchingRoom m=matchingRoomRepository.findByMatchingRoomId(roomRequest.getMatchingRoomId());
+
+        m.setMatchingRoomImage(roomRequest.getMatchingRoomImage());
+        m.setMatchingRoomName(roomRequest.getMatchingRoomName());
+
+        matchingRoomRepository.save(m);
+
+        return "Successfully update matchingroom";
+
+
     }
 }

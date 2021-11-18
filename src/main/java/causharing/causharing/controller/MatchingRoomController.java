@@ -2,7 +2,9 @@ package causharing.causharing.controller;
 
 
 import causharing.causharing.model.Header;
+import causharing.causharing.model.request.ChangecCommentRequest;
 import causharing.causharing.model.request.InviteRequest;
+import causharing.causharing.model.request.RoomRequest;
 import causharing.causharing.model.request.UserApiRequest;
 import causharing.causharing.service.MatchingRoomService;
 import causharing.causharing.service.MatchingService;
@@ -36,4 +38,20 @@ public class MatchingRoomController {
             return Header.ERROR("Need to login for seeing matchingroomList "+e);
         }
     }
+
+
+    @ApiOperation(value="매칭룸 정보 수정")
+    @PostMapping("/updateRoom")
+    public Header updateRoom(@RequestBody RoomRequest roomRequest)
+    {
+        try {
+
+            return Header.OK(matchingRoomService.update(roomRequest),"");
+        }
+        catch (Exception e)
+        {
+            return Header.ERROR("update matchingroom error: "+e);
+        }
+    }
+
 }
