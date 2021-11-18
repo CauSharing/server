@@ -42,7 +42,7 @@ public class CommentService {
                                 .commentDate(LocalDateTime.now())
                                 .postId(post)
                                 .content(commentRequest.getContent())
-                                .writer(user.getNickname())
+                                .writer(user)
                                 .build();
 
         commentRepository.save(comment);
@@ -66,14 +66,27 @@ public class CommentService {
             //대댓글 정리
             for (Comment c : list) {
 
+
                 //댓글
                 if (c.getParentCommentId() == null) {
-                    response.add(CommentListResponse.builder()
-                            .commentId(c.getCommentId())
-                            .content(c.getContent())
-                            .writer(c.getWriter())
-                            .commentDate(c.getCommentDate())
-                            .build());
+
+                    if(c.getWriter()!=null) {
+                        response.add(CommentListResponse.builder()
+                                .commentId(c.getCommentId())
+                                .content(c.getContent())
+                                .writer(c.getWriter().getNickname())
+                                .commentDate(c.getCommentDate())
+                                .build());
+                    }
+                    else{
+                        response.add(CommentListResponse.builder()
+                                .commentId(c.getCommentId())
+                                .content(c.getContent())
+                                .writer("")
+                                .commentDate(c.getCommentDate())
+                                .build());
+
+                    }
                 } else {//대댓글
 
                     for (CommentListResponse r : response) {
@@ -83,7 +96,7 @@ public class CommentService {
                             CommentListResponse clr = CommentListResponse.builder()
                                     .commentId(c.getCommentId())
                                     .content(c.getContent())
-                                    .writer(c.getWriter())
+                                    .writer(c.getWriter().getNickname())
                                     .commentDate(c.getCommentDate())
                                     .build();
                             //부모 댓글에 삽입
@@ -119,9 +132,9 @@ public class CommentService {
         if(comment.getParentCommentId()==null) { //댓글이면 내용변경
 
             if(!comment.getCommentList().isEmpty()) {
-                System.out.println(comment.getCommentList());
+                //System.out.println(comment.getCommentList());
                 comment.setContent("삭제된 댓글입니다.");
-                comment.setWriter("");
+                comment.setWriter(null);
 
 
                 commentRepository.save(comment);
@@ -135,7 +148,7 @@ public class CommentService {
             Comment parent=comment.getParentCommentId();
             commentRepository.delete(comment);
             //System.out.println(parent.getCommentList());
-;            if(parent.getCommentList().isEmpty()&&parent.getWriter().equals(""))
+;            if(parent.getCommentList().isEmpty()&&parent.getContent().equals("삭제된 댓글입니다."))
             {
                 Comment temp=commentRepository.findByCommentId(parent.getCommentId());
                 commentRepository.delete(temp);
@@ -145,12 +158,14 @@ public class CommentService {
         return "Successfully delete comment";
     }
 
-    public String update(ChangecCommentRequest changecCommentRequest) {
+    public String update(ChangecCommentRequest changecCommentRequest,String email) {
 
+        User user=userRepository.findByEmail(email);
         Comment comment=commentRepository.findByCommentId(changecCommentRequest.getCommentId());
 
         comment.setContent(changecCommentRequest.getChangeContent());
         comment.setCommentDate(LocalDateTime.now());
+        comment.setWriter(user);
 
         commentRepository.save(comment);
 

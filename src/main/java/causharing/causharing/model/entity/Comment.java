@@ -25,7 +25,8 @@ public class Comment {
 
     private LocalDateTime commentDate;
 
-    private String writer;
+    @ManyToOne
+    private User writer;
 
     @ManyToOne
     private Post postId;

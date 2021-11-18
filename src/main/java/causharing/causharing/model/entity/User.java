@@ -50,6 +50,9 @@ public class User implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "userEmail")
     List<Post> postList = new ArrayList<>();
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "writer")
+    List<Comment> commentList = new ArrayList<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

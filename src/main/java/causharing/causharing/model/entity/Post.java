@@ -32,7 +32,7 @@ public class Post {
     @ManyToOne
     private User userEmail;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "postId")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "postId",cascade =CascadeType.REMOVE)
     private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "postId")

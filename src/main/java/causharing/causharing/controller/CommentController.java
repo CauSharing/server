@@ -77,8 +77,9 @@ public class CommentController {
     {
         try {
 
-
-            return Header.OK(commentService.update(changecCommentRequest),"");
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = ((User) auth.getPrincipal()).getUsername();
+            return Header.OK(commentService.update(changecCommentRequest,email),"");
         }
         catch (Exception e)
         {
