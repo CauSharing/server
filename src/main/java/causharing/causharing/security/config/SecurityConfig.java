@@ -69,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/createPost",
                 "/sharpening",
                 "//sharpening/**"
+                ,"/ws-stomp/**"
                 ).permitAll()
                 .anyRequest().authenticated()
                 .and()

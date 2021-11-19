@@ -1,9 +1,6 @@
 package causharing.causharing.service;
 
-import causharing.causharing.model.entity.Invitation;
-import causharing.causharing.model.entity.Matching;
-import causharing.causharing.model.entity.MatchingRoom;
-import causharing.causharing.model.entity.User;
+import causharing.causharing.model.entity.*;
 import causharing.causharing.model.repository.InvitationRepository;
 import causharing.causharing.model.repository.MatchingRepository;
 import causharing.causharing.model.repository.MatchingRoomRepository;
@@ -129,6 +126,8 @@ public class MatchingService {
 
             userRepository.save(sender);
             userRepository.save(receiver);
+
+
 
         }
         else{//기존 그룹 매칭일 경우 reciever만 매칭
