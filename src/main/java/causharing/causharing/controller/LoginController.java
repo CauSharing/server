@@ -39,7 +39,6 @@ public class LoginController {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );
-            // TODO : 유저 정보 같이 보내기.
             User user = userRepository.findByEmail(loginRequest.getEmail());
             LoginResponse loginResponse = LoginResponse.builder()
                     .jwtToken(jwtUtil.generateToken(loginRequest.getEmail()))

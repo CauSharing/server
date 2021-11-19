@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.*;
 
 @Entity
 @AllArgsConstructor
@@ -12,18 +13,17 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Accessors(chain = true)
-@ToString(exclude = {"postId"})
+@ToString(exclude = {"postId, sharpeningId"})
 public class Sharpening {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long SharpeningId;
 
-    private String originalDescription;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sharpeningId")
+    private List<EditedData> editedData = new ArrayList<>();
 
-    private String modifiedDescription;
-
-    private int line;
+    private String writer;
 
     @ManyToOne
     private Post postId;
