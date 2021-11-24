@@ -1,5 +1,6 @@
 package causharing.causharing.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -13,10 +14,13 @@ import java.util.Map;
 @Service
 public class TranslateService {
 
-    public String getTransSentence(String src, String dst, String content){
 
-        String clientId = "T8e0d_ayI43qscjKZpFR";
-        String clientSecret = "wOWbQYm3h6";
+    @Value("${client.id}")
+    String clientId;
+    @Value("${client.secret}")
+    String clientSecret;
+
+    public String getTransSentence(String src, String dst, String content){
 
         String apiURL = "https://openapi.naver.com/v1/papago/n2mt";
         String text;
