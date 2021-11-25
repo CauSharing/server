@@ -25,6 +25,8 @@ public class CommentListResponse {
 
     private String email;
 
+    private String image;
+
     private List<CommentListResponse> childComment;
 
 }
