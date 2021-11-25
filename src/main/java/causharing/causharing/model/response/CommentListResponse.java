@@ -23,6 +23,8 @@ public class CommentListResponse {
 
     private String writer;
 
+    private String image;
+
     private List<CommentListResponse> childComment;
 
 }

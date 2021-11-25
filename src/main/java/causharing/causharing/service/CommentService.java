@@ -75,6 +75,7 @@ public class CommentService {
                                 .commentId(c.getCommentId())
                                 .content(c.getContent())
                                 .writer(c.getWriter().getNickname())
+                                .image(c.getWriter().getImage())
                                 .commentDate(c.getCommentDate())
                                 .build());
                     }
@@ -83,6 +84,7 @@ public class CommentService {
                                 .commentId(c.getCommentId())
                                 .content(c.getContent())
                                 .writer("")
+                                .image("")
                                 .commentDate(c.getCommentDate())
                                 .build());
 
@@ -97,6 +99,7 @@ public class CommentService {
                                     .commentId(c.getCommentId())
                                     .content(c.getContent())
                                     .writer(c.getWriter().getNickname())
+                                    .image(c.getWriter().getImage())
                                     .commentDate(c.getCommentDate())
                                     .build();
                             //부모 댓글에 삽입
