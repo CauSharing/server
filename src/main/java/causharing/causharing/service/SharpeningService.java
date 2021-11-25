@@ -33,21 +33,37 @@ public class SharpeningService {
     public String create(String email, EditedDataRequest editedDataRequest) {
         User user = userRepository.findByEmail(email);
         Post post = postRepository.findByPostId(editedDataRequest.getPostId());
-        Sharpening sharpening = Sharpening.builder()
-                .postId(post)
-                .writer(user.getNickname())
-                .build();
+        Sharpening check = sharpeningRepository.findByPostId(post);
+        // 최초 생성
+        if (check == null) {
+            Sharpening sharpening = Sharpening.builder()
+                    .postId(post)
+                    .writer(user.getNickname())
+                    .build();
 
-        sharpeningRepository.save(sharpening);
+            sharpeningRepository.save(sharpening);
 
-        List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, sharpening))
-                .collect(Collectors.toList());
+            List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, sharpening))
+                    .collect(Collectors.toList());
 
-        sharpening.setEditedData(editedDataList);
+            sharpening.setEditedData(editedDataList);
 
-        sharpeningRepository.save(sharpening);
+            sharpeningRepository.save(sharpening);
 
-        return "sharpening content successfully";
+            return "sharpening content successfully";
+        }
+        // 첨삭내용 이미 존재하는 경우
+        else {
+            List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, check))
+                    .collect(Collectors.toList());
+
+            check.setEditedData(editedDataList);
+
+            sharpeningRepository.save(check);
+
+            return "sharpening content successfully";
+        }
+
     }
 
     private EditedData createList(causharing.causharing.model.EditedData editedData, Sharpening sharpening) {
