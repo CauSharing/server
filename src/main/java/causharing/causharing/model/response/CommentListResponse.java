@@ -21,7 +21,9 @@ public class CommentListResponse {
 
     private LocalDateTime commentDate;
 
-    private String writer;
+    private String nickname;
+
+    private String email;
 
     private List<CommentListResponse> childComment;
 

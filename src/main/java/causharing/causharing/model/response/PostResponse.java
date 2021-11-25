@@ -27,4 +27,6 @@ public class PostResponse {
 
     private String userNickname;
 
+    private String userEmail;
+
 }

@@ -67,6 +67,7 @@ public class PostService {
                 .content(post.getContent())
                 .matchingRoomId(post.getMatchingRoomId().getMatchingRoomId())
                 .userNickname(post.getUserEmail().getNickname())
+                .userEmail(post.getUserEmail().getEmail())
                 .build();
     }
 

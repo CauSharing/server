@@ -74,16 +74,18 @@ public class CommentService {
                         response.add(CommentListResponse.builder()
                                 .commentId(c.getCommentId())
                                 .content(c.getContent())
-                                .writer(c.getWriter().getNickname())
+                                .nickname(c.getWriter().getNickname())
                                 .commentDate(c.getCommentDate())
+                                .email(c.getWriter().getEmail())
                                 .build());
                     }
                     else{
                         response.add(CommentListResponse.builder()
                                 .commentId(c.getCommentId())
                                 .content(c.getContent())
-                                .writer("")
+                                .nickname("")
                                 .commentDate(c.getCommentDate())
+                                .email("")
                                 .build());
 
                     }
@@ -96,7 +98,8 @@ public class CommentService {
                             CommentListResponse clr = CommentListResponse.builder()
                                     .commentId(c.getCommentId())
                                     .content(c.getContent())
-                                    .writer(c.getWriter().getNickname())
+                                    .nickname(c.getWriter().getNickname())
+                                    .email(c.getWriter().getEmail())
                                     .commentDate(c.getCommentDate())
                                     .build();
                             //부모 댓글에 삽입

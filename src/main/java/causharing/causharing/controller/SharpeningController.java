@@ -38,7 +38,7 @@ public class SharpeningController {
             String email = ((User) auth.getPrincipal()).getUsername();
             if (sharpeningService.read(postId) == null)
                 return Header.OK("Sharpening content does not exist");
-            return Header.OK(sharpeningService.read(postId), "successfully read sharpening content");
+            return Header.OK(sharpeningService.read(postId), "Successfully read sharpening content");
         }
         catch (Exception e) {
             return Header.ERROR("Need to login for reading the sharpening content");
