@@ -11,7 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EditedData {
 
+    private Long EditedDataId;
+
     private int line;
 
     private String content;
+
+    private String writer;
 }

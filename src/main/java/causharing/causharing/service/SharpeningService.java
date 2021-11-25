@@ -65,16 +65,29 @@ public class SharpeningService {
         Sharpening sharpening = sharpeningRepository.findByPostId(post);
         List<causharing.causharing.model.EditedData> editedDataList = sharpening.getEditedData().stream().map(editedData -> entityToResponse(editedData))
                 .collect(Collectors.toList());
+        editedDataList.sort(new UserComparator());
         return SharpeningResponse.builder()
                 .postId(post.getPostId())
                 .editedDataList(editedDataList)
                 .build();
     }
 
+    class UserComparator implements Comparator<causharing.causharing.model.EditedData>{
+
+        @Override
+        public int compare(causharing.causharing.model.EditedData o1, causharing.causharing.model.EditedData o2) {
+            if(o1.getLine()>o2.getLine()) return 1;
+            if(o1.getLine()<o2.getLine()) return -1;
+            return 0;
+        }
+    }
+
     private causharing.causharing.model.EditedData entityToResponse(EditedData editedData) {
         return causharing.causharing.model.EditedData.builder()
+                .EditedDataId(editedData.getEditedDataId())
                 .line(editedData.getLine())
                 .content(editedData.getContent())
+                .writer(editedData.getSharpeningId().getWriter())
                 .build();
     }
 }
