@@ -63,6 +63,9 @@ public class SharpeningService {
     public SharpeningResponse read(Long postId) {
         Post post = postRepository.findByPostId(postId);
         Sharpening sharpening = sharpeningRepository.findByPostId(post);
+        if (sharpening == null) {
+            return null;
+        }
         List<causharing.causharing.model.EditedData> editedDataList = sharpening.getEditedData().stream().map(editedData -> entityToResponse(editedData))
                 .collect(Collectors.toList());
         editedDataList.sort(new UserComparator());

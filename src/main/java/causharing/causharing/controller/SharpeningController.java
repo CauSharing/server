@@ -36,7 +36,8 @@ public class SharpeningController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = ((User) auth.getPrincipal()).getUsername();
-
+            if (sharpeningService.read(postId) == null)
+                return Header.OK("Sharpening content does not exist");
             return Header.OK(sharpeningService.read(postId), "successfully read sharpening content");
         }
         catch (Exception e) {
