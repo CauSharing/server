@@ -45,12 +45,13 @@ public class ChatController {
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
 
-
+//message,matchingroom, email
             message.setTime(LocalDateTime.now());
-            User user=userRepository.findByEmail(message.getUser());
+            User user=userRepository.findByEmail(message.getEmail());
+
             MatchingRoom matchingRoom= matchingRoomRepository.findByMatchingRoomId(message.getMatchingRoomId());
 
-            message.setUser(user.getNickname());
+            message.setNickname(user.getNickname());
             messagingTemplate.convertAndSend("/sub/chat/room/" + message.getMatchingRoomId(), message);
 
 
