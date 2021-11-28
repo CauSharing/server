@@ -1,6 +1,5 @@
-package causharing.causharing.model.request;
+package causharing.causharing.model.response;
 
-import causharing.causharing.model.entity.MatchingRoom;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,15 +11,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatMessage {
+public class ChatResponse {
 
     private String message;
 
-    private Long matchingRoomId;
-
-    private String email;
+    private LocalDateTime chatDate;
 
     private String nickname;
 
-    private LocalDateTime time;
+    private String email;
+
+    private String image;
 }

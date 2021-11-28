@@ -8,6 +8,10 @@ import causharing.causharing.model.repository.ChatRepository;
 import causharing.causharing.model.repository.MatchingRoomRepository;
 import causharing.causharing.model.repository.UserRepository;
 import causharing.causharing.model.request.ChatMessage;
+import causharing.causharing.model.response.ChatResponse;
+import causharing.causharing.model.response.CommentListResponse;
+import causharing.causharing.service.ChatService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,15 +39,19 @@ public class ChatController {
     @Autowired
     ChatRepository chatRepository;
 
+    @Autowired
+    ChatService chatService;
+
     @MessageMapping("/chat/message")
     public void message(ChatMessage message) {
 
-
+//message,matchingroom, email
             message.setTime(LocalDateTime.now());
-            User user=userRepository.findByEmail(message.getUser());
+            User user=userRepository.findByEmail(message.getEmail());
+
             MatchingRoom matchingRoom= matchingRoomRepository.findByMatchingRoomId(message.getMatchingRoomId());
 
-            message.setUser(user.getNickname());
+            message.setNickname(user.getNickname());
             messagingTemplate.convertAndSend("/sub/chat/room/" + message.getMatchingRoomId(), message);
 
 
@@ -59,6 +68,18 @@ public class ChatController {
 
     }
 
+    @GetMapping("/chatList")
+    @ApiOperation(value="채팅 목록",notes="")
+    public Header<List<ChatResponse>> chatList(Long matchingRoomId)
+    {
+        try {
+            return Header.OK(chatService.chatList(matchingRoomId),"chatlist for matchingRoomId "+matchingRoomId);
+        }
+        catch (Exception e)
+        {
+            return Header.ERROR("commentList error: "+e);
+        }
+    }
 
 
 
