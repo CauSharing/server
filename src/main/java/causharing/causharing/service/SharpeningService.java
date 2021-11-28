@@ -57,6 +57,7 @@ public class SharpeningService {
             List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, check))
                     .collect(Collectors.toList());
 
+            // 리스트에 추가하고 싶은 경우 set을 이용해도 추가됨!
             check.setEditedData(editedDataList);
 
             sharpeningRepository.save(check);

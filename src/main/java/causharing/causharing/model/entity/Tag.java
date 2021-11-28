@@ -25,7 +25,9 @@ public class Tag {
 
     private String rgb;
 
-    private  String tagName;
+    private String tagName;
+
+    private String writer;
 
     @ManyToOne
     private MatchingRoom matchingRoomId;
