@@ -37,7 +37,12 @@ public class TagController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String email = ((User) auth.getPrincipal()).getUsername();
 
-            return Header.OK(tagService.read(MatchingRoomId, Month), "read successfully");
+            if (tagService.read(MatchingRoomId, Month) == null) {
+                return Header.OK("don't have tags");
+            }
+            else {
+                return Header.OK(tagService.read(MatchingRoomId, Month), "read successfully");
+            }
         }
         catch (Exception e) {
             return Header.ERROR("Need to login for viewing tags");

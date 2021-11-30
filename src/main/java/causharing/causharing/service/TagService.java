@@ -53,12 +53,17 @@ public class TagService {
 
     public TagListResponse read(Long matchingRoomId, String month) {
         List<Tag> tags = tagRepository.findByTags(matchingRoomId, month);
-        List<TagResponse> tagResponseList = tags.stream().map(tag -> response(tag))
-                .collect(Collectors.toList());
+        if (tags == null) {
+            return null;
+        }
+        else {
+            List<TagResponse> tagResponseList = tags.stream().map(tag -> response(tag))
+                    .collect(Collectors.toList());
 
-        return TagListResponse.builder()
-                .tagResponseList(tagResponseList)
-                .build();
+            return TagListResponse.builder()
+                    .tagResponseList(tagResponseList)
+                    .build();
+        }
     }
 
     private TagResponse response(Tag tag) {
