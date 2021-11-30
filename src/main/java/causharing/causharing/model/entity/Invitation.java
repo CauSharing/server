@@ -26,4 +26,5 @@ public class Invitation {
     private String InvitedPerson;
 
     private Long MatchingRoomId;
+
 }
