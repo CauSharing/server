@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -126,5 +127,19 @@ public class PostService {
         return response;
 
 
+    }
+
+    public List<String> read(Long matchingRoomId, LocalDate month) {
+        MatchingRoom matchingRoom = matchingRoomRepository.findByMatchingRoomId(matchingRoomId);
+        List<Post> posts = postRepository.findPostsByMatchingRoomIdAndPostDateBetween(matchingRoom, month.atStartOfDay(), month.plusDays(31).atStartOfDay());
+        List<String> postsDate = posts.stream().map(post -> responsePostDate(post))
+                .collect(Collectors.toList());
+
+        return postsDate;
+
+    }
+
+    private String responsePostDate(Post post) {
+        return post.getPostDate().toString().substring(0, 10);
     }
 }

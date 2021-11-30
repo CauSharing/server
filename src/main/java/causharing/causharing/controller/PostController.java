@@ -3,7 +3,10 @@ package causharing.causharing.controller;
 import causharing.causharing.model.Header;
 import causharing.causharing.model.request.CreatePostRequest;
 import causharing.causharing.service.PostService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
@@ -90,5 +93,27 @@ public class PostController {
         catch (Exception e) {
             return Header.ERROR("Need to login for delete post");
         }
+    }
+
+    @GetMapping("/postDate")
+    @ApiOperation(value = "게시물이 있는 날짜 조회")
+    public Header read(@RequestParam Long MatchingRoomId,
+                       // parameter default value 추가
+                       @ApiParam(value = "2021-11-01", type = "LocalDate", required = true, example = "2021-11-01")
+                       @RequestParam
+                       // LocalDateTime 형식 설정
+                       @DateTimeFormat(pattern="yyyy-MM-dd")
+                       LocalDate postDate) {
+
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String email = ((User) auth.getPrincipal()).getUsername();
+
+            return Header.OK(postService.read(MatchingRoomId, postDate), "read successfully");
+        }
+        catch (Exception e) {
+            return Header.ERROR("Need to login for viewing post");
+        }
+
     }
 }
