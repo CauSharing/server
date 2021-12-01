@@ -36,6 +36,7 @@ public class LoginController {
             @RequestBody LoginRequest loginRequest
     ) {
         try {
+            // 로그인 정보로 AuthenticationManager에서 사용할 수 있는 UsernamePasswordAuthenticationToken 생성
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
             );

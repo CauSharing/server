@@ -30,4 +30,10 @@ public class S3ServiceImpl implements S3Service{
     public String getFileUrl(String fileName) {
         return amazonS3.getUrl(component.getBucket(), fileName).toString();
     }
+
+    @Override
+    public String deleteFile(String fileName) {
+        amazonS3.deleteObject(component.getBucket(), fileName);
+        return "clear";
+    }
 }

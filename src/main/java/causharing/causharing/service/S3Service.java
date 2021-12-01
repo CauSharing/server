@@ -15,4 +15,6 @@ public interface S3Service {
 
     String getFileUrl(String fileName);
 
+    String deleteFile(String fileName);
+
 }

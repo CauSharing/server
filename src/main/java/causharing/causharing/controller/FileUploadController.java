@@ -2,9 +2,7 @@ package causharing.causharing.controller;
 
 import causharing.causharing.service.FileUploadService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
@@ -21,6 +19,11 @@ public class FileUploadController {
         return fileUploadService.uploadImage(file);
 
     }
+
+    @DeleteMapping("/delete")
+    public String deleleImage(@RequestParam String fileName) {
+        return fileUploadService.deleteFileName(fileName);
+    };
 
 
 }

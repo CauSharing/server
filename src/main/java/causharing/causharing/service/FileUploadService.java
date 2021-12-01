@@ -43,4 +43,9 @@ public class FileUploadService {
             throw new IllegalArgumentException(String.format("잘못된 형식의 파일 (%s) 입니다.", fileName));
         }
     }
+
+    public String deleteFileName(String fileName) {
+        // 앞에 s3 버킷 주소 제외하고 key 스트링 보냄
+        return s3Service.deleteFile(fileName.substring(49));
+    }
 }
