@@ -139,7 +139,7 @@ public class CommentService {
 
             if(!comment.getCommentList().isEmpty()) {
                 //System.out.println(comment.getCommentList());
-                comment.setContent("삭제된 댓글입니다.");
+                comment.setContent("Comment is deleted.");
                 comment.setWriter(null);
 
 
@@ -154,7 +154,7 @@ public class CommentService {
             Comment parent=comment.getParentCommentId();
             commentRepository.delete(comment);
             //System.out.println(parent.getCommentList());
-            ;            if(parent.getCommentList().isEmpty()&&parent.getContent().equals("삭제된 댓글입니다."))
+            ;            if(parent.getCommentList().isEmpty()&&parent.getContent().equals("Comment is deleted."))
             {
                 Comment temp=commentRepository.findByCommentId(parent.getCommentId());
                 commentRepository.delete(temp);
