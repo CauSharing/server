@@ -43,7 +43,7 @@ public class SharpeningService {
 
             sharpeningRepository.save(sharpening);
 
-            List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, sharpening))
+            List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, sharpening, user.getNickname()))
                     .collect(Collectors.toList());
 
             sharpening.setEditedData(editedDataList);
@@ -54,7 +54,7 @@ public class SharpeningService {
         }
         // 첨삭내용 이미 존재하는 경우
         else {
-            List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, check))
+            List<EditedData> editedDataList = editedDataRequest.getEditedDataList().stream().map(editedData -> createList(editedData, check, user.getNickname()))
                     .collect(Collectors.toList());
 
             // 리스트에 추가하고 싶은 경우 set을 이용해도 추가됨!
@@ -67,8 +67,9 @@ public class SharpeningService {
 
     }
 
-    private EditedData createList(causharing.causharing.model.EditedData editedData, Sharpening sharpening) {
+    private EditedData createList(causharing.causharing.model.EditedData editedData, Sharpening sharpening, String nickname) {
         EditedData editedData1 = EditedData.builder()
+                .writer(nickname)
                 .line(editedData.getLine())
                 .content(editedData.getContent())
                 .sharpeningId(sharpening)
@@ -107,7 +108,7 @@ public class SharpeningService {
                 .EditedDataId(editedData.getEditedDataId())
                 .line(editedData.getLine())
                 .content(editedData.getContent())
-                .writer(editedData.getSharpeningId().getWriter())
+                .writer(editedData.getWriter())
                 .build();
     }
 }
