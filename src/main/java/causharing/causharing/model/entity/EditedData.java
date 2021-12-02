@@ -20,6 +20,8 @@ public class EditedData {
 
     private String content;
 
+    private String writer;
+
     @ManyToOne
     private Sharpening sharpeningId;
 }
