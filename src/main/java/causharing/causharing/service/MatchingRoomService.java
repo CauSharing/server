@@ -49,6 +49,7 @@ public class MatchingRoomService {
                         userList.add(UserMailAndName.builder()
                                 .email(s.getUser().getEmail())
                                 .nickname(s.getUser().getNickname())
+                                .image(s.getUser().getImage())
                                 .build());
                     }
                     roomList.add(RoomListResponse.builder()

@@ -15,4 +15,5 @@ public class UserMailAndName {
 
     private String email;
     private String nickname;
+    private String image;
 }
