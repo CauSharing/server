@@ -24,6 +24,7 @@ public class Post {
 
     private LocalDateTime postDate;
 
+    @Column(length = 100000)
     private String content;
 
     @ManyToOne

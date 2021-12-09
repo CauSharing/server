@@ -250,6 +250,6 @@ public class MatchingService {
 
         invitationRepository.save(invitation);
 
-        return "Sucessfully send inviting message to"+ reciever.getNickname();
+        return "Sucessfully send inviting message to "+ reciever.getNickname();
     }
 }
